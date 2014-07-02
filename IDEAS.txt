@@ -1,0 +1,30 @@
+Sl@y3D for my n@me: although the forums wouldnt launch alongside the server, theyd launch when the server gains momentum
+Draan: I might try my hand at getting the old VMFsuite to work
+Draan: Maybe the anti-physgunhun
+Sl@y3D for my n@me: i know theres the F1 button, but i feel it would be nice if there was some kind of... tutorial, nothing obtrusive, just some kind of hints that pop up in the right situations
+Draan: I was thinking of tabs
+Draan: In order of diffuculty
+Draan: Like 'Hands, chat commands, property, etc'
+Draan: Context sentisive?
+Sl@y3D for my n@me: so lets say you press Y, you get a list of potential commands
+Sl@y3D for my n@me: when you start typing into the box, the list disappears
+Sl@y3D for my n@me: but when the box is empty, you get the list
+Draan: Search as you type?
+Sl@y3D for my n@me: yeah!
+Sl@y3D for my n@me: darkRP has a similar system come to think of it
+Sl@y3D for my n@me: id like to make it really obvious that you are supposed to right click to start the car, perhaps with some kind of animation or contrasting colour
+Sl@y3D for my n@me: then have it limited to 30mph by default, not 0
+
+
+Help thing
+Join/leave messages
+Businesses (Pre-set jobs?)
+Attributes (>BLADDER<)
+Government
+Telephones
+3d text letters
+Taser first person stick (not possible :( )
+RP names
+door titles
+local chat?
+model thing
