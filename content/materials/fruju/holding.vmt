@@ -1,0 +1,7 @@
+"UnlitGeneric"
+{
+	"$basetexture" "fruju/holding"
+      "$translucent"   "1"
+      "$translucency" "1"
+      "$ignorez" "1"
+}

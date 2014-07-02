@@ -1,0 +1,18 @@
+"fruju_roleplay"
+
+{
+
+"base"		"sandbox"
+
+"title"		"Tabby Roleplaying"
+
+"maps"		"^rp_"
+"version"	"2"
+
+"menusystem"	"1"
+
+
+"author_name"	"Rory and Draan, with help from Slayed"
+
+"hide"		"0"
+}

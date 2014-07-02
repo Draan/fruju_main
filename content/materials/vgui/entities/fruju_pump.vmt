@@ -1,0 +1,7 @@
+"UnlitGeneric"
+{
+	"$basetexture" "vgui/entities/fruju_pump"
+	"$translucent"   "1"
+	"$translucency" "1"
+	"$ignorez" "1"
+}

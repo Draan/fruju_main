@@ -1,0 +1,7 @@
+"UnlitGeneric"
+{
+	"$basetexture" "fruju/rev_limit"
+      "$translucent"   "1"
+      "$translucency" "1"
+      "$ignorez" "1"
+}
