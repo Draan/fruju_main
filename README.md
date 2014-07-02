@@ -1,4 +1,4 @@
-fruju_main
+Fruju 2-ish
 ==========
 
-Fruju
+The files for fruju. 
