@@ -85,6 +85,21 @@ function hands.ClearHeldEnt(umsg)
 end
 usermessage.Hook("Hands.ClearHeld", hands.ClearHeldEnt);
 
+function hands.ReceiveRotating(umsg)
+	local ply = LocalPlayer();
+	if (!ply || !ply:IsValid()) then return end
+	
+	local rotating = umsg:ReadBool();
+	
+	for _, wep in pairs (ply:GetWeapons()) do
+		if (wep:GetClass() == Fruju.HandsClass) then
+			wep:SetRotating(rotating);
+			break;
+		end
+	end
+end
+usermessage.Hook("Hands.SetRotating", hands.ReceiveRotating);
+
 function hands.UpdateHolding(umsg)
 	-- Get the entity
 	local ent = Entity(umsg:ReadLong());
@@ -136,3 +151,19 @@ function hands.GetPlayersToLift(ply, wep, scrw, scrh, w, h)
 	draw.SimpleText(playersNeeded, 'Default', ((scrw - w) / 2) - 5, ((scrh - 32) / 2) + 13, Color(95, 95, 95, 255), 0, 3);
 end
 hook.Add("HandsDrawText", "hands.GetPlayersToLift", hands.GetPlayersToLift);
+
+function hands.CreateMove(cmd)
+	local ply = LocalPlayer();
+	local wep = ply:GetActiveWeapon();
+	
+	if (wep && wep:IsValid() && wep:GetClass() == Fruju.HandsClass) then
+		local held = wep:GetHeld();
+		
+		if (wep:IsRotating() && held && held:IsValid()) then
+			cmd:SetViewAngles(wep.rotationEyeAngles);
+			
+			ply:ConCommand("hands.SendRotation " .. cmd:GetMouseX() .. " " .. cmd:GetMouseY());
+		end
+	end
+end
+hook.Add("CreateMove", "hands.CreateMove", hands.CreateMove);

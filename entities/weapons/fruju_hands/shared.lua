@@ -4,6 +4,8 @@ SWEP.Purpose = "";
 SWEP.Instructions = "";
 SWEP.Spawnable = true;
 SWEP.AdminSpawnable = true;
+SWEP.isRotating = false;
+SWEP.rotationEyeAngles = nil;
 
 SWEP.ViewModelFOV	= 80;
 SWEP.ViewModelFlip	= false;
@@ -90,8 +92,25 @@ function SWEP:ClearHeld(throw, freeze)
 		self:SendClearHeld();
 	end
 	
+	self:SetRotating(false);
 	self.entHeld:RemoveHolding(self.Owner);
 	self.entHeld = nil;
+end
+
+function SWEP:IsRotating()
+	return self.isRotating;
+end
+
+function SWEP:SetRotating(rotating)
+	self.isRotating = rotating;
+	
+	if (self.Owner && self.Owner:IsPlayer()) then
+		self.rotationEyeAngles = self.Owner:GetAimVector():Angle();
+	end
+	
+	if (SERVER) then
+		self:SendRotating();
+	end
 end
 
 function entMeta:IsHolding(ply)

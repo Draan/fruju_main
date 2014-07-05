@@ -7,6 +7,7 @@ SWEP.Weight = 5;
 SWEP.AutoSwitchTo = false;
 SWEP.AutoSwitchFrom = false;
 SWEP.entHeld = nil;
+SWEP.currentRotation = Angle(0, 90, 0);
 throw = false
 
 local entMeta = FindMetaTable("Entity");
@@ -223,9 +224,14 @@ function SWEP:MoveHolder()
 	local holder, bone = self.Owner:GetHolder();
 	if (!holder || !holder:IsValid()) then return end
 	
+	local aimVector = self.Owner:GetAimVector();
+	local matrix = Matrix();
+	matrix:Rotate(aimVector:Angle());
+	matrix:Rotate(self.currentRotation);
+	
 	-- Move the holder
-	holder:SetPos(self.Owner:GetShootPos() + (self.Owner:GetAimVector() * 80));
-	holder:SetAngles(self.Owner:GetAimVector():Angle());
+	holder:SetPos(self.Owner:GetShootPos() + (aimVector * 80));
+	holder:SetAngles(matrix:GetAngles());
 end
 
 function SWEP:SendHeld()
@@ -243,6 +249,15 @@ function SWEP:SendHeld()
 	umsg.Start("Hands.SendHeld", self.Owner);
 		umsg.Long(held:EntIndex());
 		umsg.Float(held:Mass(holder));
+	umsg.End();
+end
+
+function SWEP:SendRotating()
+	-- Check the player is valid
+	if (!self.Owner || !self.Owner:IsPlayer()) then return end
+	
+	umsg.Start("Hands.SetRotating", self.Owner);
+		umsg.Bool(self:IsRotating());
 	umsg.End();
 end
 
@@ -350,4 +365,41 @@ function hands.BlockDamage (ply, ent)
 		end
 	end
 end
-hook.Add('PlayerShouldTakeDamage', 'hands.BlockDamage', hands.BlockDamage)
+hook.Add('PlayerShouldTakeDamage', 'hands.BlockDamage', hands.BlockDamage);
+
+function hands.KeyPressed(ply, key)
+	if (key == IN_USE) then
+		local wep = ply:GetActiveWeapon();
+		
+		if (wep && wep:IsValid() && wep:GetClass() == Fruju.HandsClass) then
+			wep:SetRotating(true);
+		end
+	end
+end
+hook.Add("KeyPress", "hands.KeyPressed", hands.KeyPressed);
+
+function hands.KeyReleased(ply, key)
+	if (key == IN_USE) then
+		local wep = ply:GetActiveWeapon();
+		
+		if (wep && wep:IsValid() && wep:GetClass() == Fruju.HandsClass) then
+			wep:SetRotating(false);
+		end
+	end
+end
+hook.Add("KeyRelease", "hands.KeyReleased", hands.KeyReleased);
+
+function hands.PerformRotation(ply, cmd, args)
+	local wep = ply:GetActiveWeapon();
+	
+	if (wep && wep:IsValid() && wep:GetClass() == Fruju.HandsClass) then
+		if (wep:IsRotating()) then	
+			local x = args[1];
+			local y = args[2];
+				
+			wep.currentRotation:RotateAroundAxis(Vector(0, 1, 0), -y * 0.005);
+			wep.currentRotation:RotateAroundAxis(Vector(0, 0, 1), x * 0.005);	
+		end
+	end
+end
+concommand.Add("hands.SendRotation", hands.PerformRotation);
